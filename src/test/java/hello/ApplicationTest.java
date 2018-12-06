@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 public class ApplicationTest {
 
     @Autowired
-    private HomeController homeController;
+    private GreetingController greetingController;
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,17 +33,17 @@ public class ApplicationTest {
 
     @Test
     public void contextLoads() throws Exception {
-        Assertions.assertThat(homeController).isNotNull();
+        Assertions.assertThat(greetingController).isNotNull();
     }
 
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
-        Mockito.when(service.greet()).thenReturn("Wurk");
+        Mockito.when(service.greet()).thenReturn("Testuser");
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/alternateGreeting"))
+                .perform(MockMvcRequestBuilders.get("/greeting"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("Hello Wurk")));
+                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("Hello, Testuser")));
     }
 
 
