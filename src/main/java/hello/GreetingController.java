@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 @Controller
 public class GreetingController {
 
@@ -25,6 +27,7 @@ public class GreetingController {
         model.addAttribute("name", greetingService.greet());
         model.addAttribute("backgroundColor", backgroundColor);
         model.addAttribute("userDir", System.getProperty("user.dir"));
+        model.addAttribute("password", Optional.ofNullable(System.getenv("PASSWORD")).orElse("unknown"));
         return "greeting";
     }
 
