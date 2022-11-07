@@ -12,19 +12,12 @@ import java.util.Optional;
 @Controller
 public class GreetingController {
 
-    private final GreetingService greetingService;
-
     @Value("${background-color:white}")
     private String backgroundColor;
 
-    @Autowired
-    public GreetingController(GreetingService greetingService) {
-        this.greetingService = greetingService;
-    }
-
     @GetMapping("/greeting")
     public String greeting(Model model) {
-        model.addAttribute("name", greetingService.greet());
+        model.addAttribute("name", Optional.ofNullable(System.getenv("GREETING_DEFAULT")).orElse("World!"));
         model.addAttribute("backgroundColor", backgroundColor);
         model.addAttribute("userDir", System.getProperty("user.dir"));
         model.addAttribute("password", Optional.ofNullable(System.getenv("PASSWORD")).orElse("unknown"));
