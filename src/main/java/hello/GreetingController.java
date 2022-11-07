@@ -15,12 +15,13 @@ public class GreetingController {
     @Value("${background-color:white}")
     private String backgroundColor;
 
-    @GetMapping("/greeting")
+    @GetMapping("/")
     public String greeting(Model model) {
-        model.addAttribute("name", Optional.ofNullable(System.getenv("GREETING_DEFAULT")).orElse("World!"));
+        model.addAttribute("name", System.getenv().getOrDefault("GREETING_DEFAULT", "World!"));
+        model.addAttribute("hostname", System.getenv().getOrDefault("HOSTNAME", "unknown"));
         model.addAttribute("backgroundColor", backgroundColor);
         model.addAttribute("userDir", System.getProperty("user.dir"));
-        model.addAttribute("password", Optional.ofNullable(System.getenv("PASSWORD")).orElse("unknown"));
+        model.addAttribute("password", System.getenv().getOrDefault("PASSWORD", "unknown"));
         return "greeting";
     }
 
