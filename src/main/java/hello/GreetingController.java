@@ -15,6 +15,8 @@ public class GreetingController {
     @Value("${background-color:white}")
     private String backgroundColor;
 
+    private int invocationCount = 0;
+
     @GetMapping("/")
     public String greeting(Model model) {
         model.addAttribute("name", System.getenv().getOrDefault("GREETING_DEFAULT", "World!"));
@@ -22,6 +24,7 @@ public class GreetingController {
         model.addAttribute("backgroundColor", backgroundColor);
         model.addAttribute("userDir", System.getProperty("user.dir"));
         model.addAttribute("password", System.getenv().getOrDefault("PASSWORD", "unknown"));
+        model.addAttribute("invocationCount", ++invocationCount);
         return "greeting";
     }
 
