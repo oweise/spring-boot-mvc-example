@@ -1,0 +1,40 @@
+version: '2'
+volumes:
+  psql_data: {}
+
+networks:
+  project-network:
+    driver: bridge
+
+services:
+  mvc-service:
+    container_name: mvc
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mvc-image:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - psql
+    environment:
+      - HOSTNAME=mvc
+      - GREETING_DEFAULT=Docker Compose"
+      - DB_URL=jdbc://psql:5432/mydb
+    networks:
+      -   project-network
+  psql:
+    image: postgres:12.0-alpine
+    container_name: psql
+    volumes:
+      - .psql_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=mydb
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    networks:
+      - project-network
