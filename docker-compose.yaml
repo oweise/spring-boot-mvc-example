@@ -26,6 +26,8 @@ services:
   psql:
     image: postgres:12.0-alpine
     container_name: psql
+# The following lines might not work under macOS as postgres tries to chown the directory.
+# Comment it out if needed
     volumes:
       - .psql_data:/var/lib/postgresql/data
     environment:
